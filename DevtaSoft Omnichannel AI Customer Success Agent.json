@@ -1,0 +1,1856 @@
+{
+  "name": "DevtaSoft Omnichannel AI Customer Success Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "nw1",
+              "name": "channel",
+              "value": "WhatsApp",
+              "type": "string"
+            },
+            {
+              "id": "nw2",
+              "name": "chatId",
+              "value": "={{ $json.body.senderData.chatId }}",
+              "type": "string"
+            },
+            {
+              "id": "nw3",
+              "name": "message",
+              "value": "={{ $json.body.messageData.textMessageData.textMessage }}",
+              "type": "string"
+            },
+            {
+              "id": "nw4",
+              "name": "firstName",
+              "value": "={{ $json.body.senderData.senderName ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "nw5",
+              "name": "lastName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "nw6",
+              "name": "email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "nw7",
+              "name": "phone",
+              "value": "={{ $json.body.senderData.sender }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "48b28ed0-aa87-46c6-80f4-1fc3a0134b76",
+      "name": "Normalize WhatsApp",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "id": "f64dae45-02fb-44ce-845a-362ef5b8acca",
+      "name": "Merge All Channels",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        608,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "ed93e3ca-7c98-423a-91ba-04a97f475bf5",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        368
+      ],
+      "webhookId": "7965511d-7c08-46db-bfdc-a124d04c6410",
+      "credentials": {
+        "telegramApi": {
+          "id": "rDq64PxUFOfeOzCt",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "nt1",
+              "name": "channel",
+              "value": "Telegram",
+              "type": "string"
+            },
+            {
+              "id": "nt2",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "nt3",
+              "name": "message",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "nt4",
+              "name": "firstName",
+              "value": "={{ $json.message.from.first_name ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "nt5",
+              "name": "lastName",
+              "value": "={{ $json.message.from.last_name ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "nt6",
+              "name": "email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "nt7",
+              "name": "phone",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ecc96b6-ad24-4f9a-a2a4-4dff805321f7",
+      "name": "Normalize Telegram",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "trigger": [
+          "message"
+        ],
+        "watchWorkspace": true,
+        "options": {}
+      },
+      "id": "e70803fd-7df4-4d0a-8efc-511e5ef8f4a0",
+      "name": "Slack Trigger",
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        144,
+        560
+      ],
+      "webhookId": "de421cdf-76c8-4941-9e22-c6690c387009"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ns1",
+              "name": "channel",
+              "value": "Slack",
+              "type": "string"
+            },
+            {
+              "id": "ns2",
+              "name": "chatId",
+              "value": "={{ $json.event.channel }}",
+              "type": "string"
+            },
+            {
+              "id": "ns3",
+              "name": "message",
+              "value": "={{ $json.event.text }}",
+              "type": "string"
+            },
+            {
+              "id": "ns4",
+              "name": "firstName",
+              "value": "={{ $json.event.user ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "ns5",
+              "name": "lastName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "ns6",
+              "name": "email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "ns7",
+              "name": "phone",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2fc5b794-4e84-4065-b766-e1288f8e2611",
+      "name": "Normalize Slack",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ne1",
+              "name": "channel",
+              "value": "Email",
+              "type": "string"
+            },
+            {
+              "id": "ne2",
+              "name": "chatId",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            },
+            {
+              "id": "ne3",
+              "name": "message",
+              "value": "={{ $json.text ?? $json.subject ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "ne4",
+              "name": "firstName",
+              "value": "={{ $json.from.split(\"@\")[0] ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "ne5",
+              "name": "lastName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "ne6",
+              "name": "email",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            },
+            {
+              "id": "ne7",
+              "name": "phone",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9691fad1-4dcb-4317-80a8-ba7eed958c6d",
+      "name": "Normalize Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        752
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f2bd9118-7aa2-4d22-a14b-a37e1a71af8d",
+      "name": "Merge Lead IDs",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1696,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \"Channel: \" + $json.channel + \"\\nCustomer: \" + ($json.firstName + \" \" + $json.lastName).trim() + \"\\nMessage: \" + $json.message + \"\\nTime: \" + $now.toISO() }}",
+        "options": {
+          "systemMessage": "# IDENTITY\nYou are Alex, the AI Customer Success Agent for DevtaSoft. You represent DevtaSoft across WhatsApp, Email, Telegram, Slack, Facebook, Instagram, and the DevtaSoft website.\n\nYou are professional, warm, and knowledgeable. You NEVER answer from your own knowledge — you ALWAYS search the DevtaSoft Knowledge Base tool first before responding to ANY question about services, pricing, timelines, process, or FAQs.\n\n# STRICT RULES\n- ALWAYS call the DevtaSoft Knowledge Base tool before answering any question\n- NEVER make up prices, timelines, or service details from memory\n- If the knowledge base returns no relevant result, say: 'Let me connect you with our team for accurate details on that.'\n- NEVER discuss competitors\n- NEVER answer questions unrelated to DevtaSoft\n- Match the customer language if not English\n- Keep responses concise and focused\n\n# YOUR ROLE\n1. Answer questions about DevtaSoft by searching the knowledge base\n2. Help clients identify which service fits their needs\n3. Qualify leads and direct them toward a free discovery call\n4. Escalate complex or frustrated enquiries to the human team\n\n# LEAD QUALIFICATION\nWhen a client shows interest, gently collect:\n1. Type of project needed\n2. Timeline or urgency\n3. Business type or industry\nThen say: 'Based on what you have shared, I recommend a free discovery call so we can scope this and give you a fixed-price proposal. Would you like me to arrange that?'\n\n# ESCALATION\nEscalate when: client wants to start immediately, asks about a live project, reports a bug, is frustrated, or asks about payments or contracts.\nSay: 'I am flagging this to the DevtaSoft team right now. Someone will be in touch within 24 hours.'\n\n# CLOSING LINE\nAlways end with: 'To get started with DevtaSoft, simply share a brief description of your project and we will schedule a free 30-minute discovery call. We will provide a written fixed-price proposal within 48 hours — no obligation.'"
+        }
+      },
+      "id": "51654088-7c00-4c31-ad77-e810d2c6dc81",
+      "name": "Deva - DevtaSoft AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1888,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "options": {}
+      },
+      "id": "a00b692d-4204-49e6-bcc6-9a2b87203689",
+      "name": "Nemotron Ultra Free",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        768
+      ],
+      "credentials": {
+        "openRouterApi": {
+          "id": "8Z78QJxMRqKu0h2Z",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $(\"Merge Lead IDs\").item.json.chatId }}",
+        "contextWindowLength": 10
+      },
+      "id": "dd533675-3df0-4a94-892e-602ceb5ba499",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1936,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Search the DevtaSoft knowledge base for information about services, pricing ranges, process, timelines, FAQs, and company information. Use this whenever a customer asks about DevtaSoft services, costs, timelines, or how DevtaSoft works.",
+        "pineconeIndex": {
+          "__rl": true,
+          "mode": "id",
+          "value": "customer-success-kb"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "id": "8e44c212-318a-4249-af77-8bc335071061",
+      "name": "DevtaSoft Knowledge Base",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2128,
+        976
+      ],
+      "credentials": {
+        "pineconeApi": {
+          "id": "XdkITx9hnaQA5U4J",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "WhatsApp",
+                    "id": "132c3d31-380f-44fa-928d-b7da9f8ffea0"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "Telegram",
+                    "id": "564b18b3-2c1c-40f5-8ce3-397e65f34b08"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "Slack",
+                    "id": "2811c61b-09c2-41e8-9a9d-8fd221f7007d"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "Email",
+                    "id": "b4a2dc50-0b57-4d63-8b80-056273a7cb19"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "notEquals",
+                      "type": "string"
+                    },
+                    "rightValue": "Meta",
+                    "id": "1675a66e-2766-464f-8d21-db0dc6ae8788"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Merge Lead IDs').item.json.channel }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "WebChat",
+                    "id": "8e57fc1f-cc3f-4b81-80e8-dde5d9fc2ebb"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "01299ff7-2d54-488e-89e7-4ce6f13740fb",
+      "name": "Route by Channel",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2240,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "=923038837299@c.us",
+        "message": "={{ $json.output }}"
+      },
+      "id": "d912cccd-c26e-4965-9e20-724d0fac1ec6",
+      "name": "Send WhatsApp Reply",
+      "type": "@green-api/n8n-nodes-whatsapp-greenapi.greenapi",
+      "typeVersion": 1,
+      "position": [
+        2592,
+        160
+      ],
+      "credentials": {
+        "greenApiAuthApi": {
+          "id": "T0WEIiVj24B7BnC5",
+          "name": "Green-API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "id": "f843e96a-5abf-4e90-80f6-6e9754066129",
+      "name": "Merge After Dispatch",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2896,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "id": "79118109-9326-4aa8-a159-22aca776f9d3",
+      "name": "Send Telegram Reply",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2592,
+        368
+      ],
+      "webhookId": "9b29ece5-20e6-40b0-9c1a-e87a66d227e3",
+      "credentials": {
+        "telegramApi": {
+          "id": "rDq64PxUFOfeOzCt",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.chatId }}"
+        },
+        "text": "={{ $json.output }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "id": "00feaa58-4d55-49b2-ad96-073e818a0587",
+      "name": "Send Slack Reply",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        2592,
+        560
+      ],
+      "webhookId": "334cea24-6908-4ea0-984b-f5d674d81118"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "DevtaSoft — Thank you for your enquiry",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "ae6752bb-daa0-4669-8f6b-d80c8fe57689",
+      "name": "Send Email Reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2592,
+        768
+      ],
+      "webhookId": "d14ef612-318a-44f0-9716-e189525416bd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RsFTfoU4qE9LpBZa",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "readStatus": "unread"
+        },
+        "options": {}
+      },
+      "id": "16c9613e-bb2f-4bae-bf70-13fd9fc7eb8b",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        144,
+        752
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "dM7gKVkhxxu9oCWd",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meta-devtasoft",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "bdadeb5e-5741-4863-8f86-e8dd33509d26",
+      "name": "Zernio Meta Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        144,
+        960
+      ],
+      "webhookId": "04e8c9e6-247e-4c3a-bd53-115ab4b19c35"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "nm1",
+              "name": "channel",
+              "type": "string",
+              "value": "={{ $json.body.message.platform === 'facebook' ? 'Facebook' : 'Instagram' }}"
+            },
+            {
+              "id": "nm2",
+              "name": "chatId",
+              "type": "string",
+              "value": "={{ $json.body.message.conversationId }}"
+            },
+            {
+              "id": "nm3",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $json.body.message.text }}"
+            },
+            {
+              "id": "nm4",
+              "name": "firstName",
+              "type": "string",
+              "value": "={{ $json.body.message.sender.name?.split(' ')[0] ?? '' }}"
+            },
+            {
+              "id": "nm5",
+              "name": "lastName",
+              "type": "string",
+              "value": "={{ $json.body.message.sender.name?.split(' ').slice(1).join(' ') ?? '' }}"
+            },
+            {
+              "id": "nm6",
+              "name": "email",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "nm7",
+              "name": "phone",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "nm8",
+              "name": "zernioAccountId",
+              "type": "string",
+              "value": "={{ $json.body.account.id }}"
+            },
+            {
+              "id": "nm9",
+              "name": "zernioConversationId",
+              "type": "string",
+              "value": "={{ $json.body.message.conversationId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "131d060b-0012-40a1-9b89-b15fd349b460",
+      "name": "Normalize Meta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://zernio.com/api/v1/inbox/conversations/' + $('Merge Lead IDs').item.json.zernioConversationId + '/messages' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk_58b03644f886b58ef67a49460d087054c45a94e5242651b57ed52b6b15062614"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ accountId: $('Merge Lead IDs').item.json.zernioAccountId, message: $json.output }) }}",
+        "options": {}
+      },
+      "id": "be871ede-b0b4-47a8-8beb-bbc06a1f7064",
+      "name": "Send Meta Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2592,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        1136
+      ],
+      "id": "a8b5149e-451b-435d-9fc5-415871892fb9",
+      "name": "Embeddings Mistral Cloud",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "gisflry2srGz58oG",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c8b64260-8c99-4f46-9b3d-8c0dfd2ca31a",
+              "leftValue": "={{ $json.id }}",
+              "operator": {
+                "operation": "exists",
+                "type": "string"
+              },
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6457b788-7b0c-47ac-9143-9ffb44c1d109",
+      "name": "Contact Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "lastName": "={{ $('Merge All Channels').item.json.lastName || $('Merge All Channels').item.json.firstName || 'Unknown' }}",
+        "additionalFields": {
+          "Description": "={{ 'Channel: ' + $('Merge All Channels').item.json.channel + ' | First message: ' + $('Merge All Channels').item.json.message }}",
+          "Email": "={{ $('Merge All Channels').item.json.email }}",
+          "First_Name": "={{ $('Merge All Channels').item.json.firstName }}",
+          "Phone": "={{ $('Merge All Channels').item.json.phone }}"
+        }
+      },
+      "id": "abc2ed72-b79e-461e-9955-516d3261840c",
+      "name": "Zoho Create Contact",
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        656
+      ],
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "bKgVRz0u7oBCn2GW",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sce1",
+              "name": "contactId",
+              "type": "string",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "id": "sce2",
+              "name": "channel",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.channel }}"
+            },
+            {
+              "id": "sce3",
+              "name": "chatId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.chatId }}"
+            },
+            {
+              "id": "sce4",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.message }}"
+            },
+            {
+              "id": "sce5",
+              "name": "firstName",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.firstName }}"
+            },
+            {
+              "id": "sce6",
+              "name": "lastName",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.lastName }}"
+            },
+            {
+              "id": "sce7",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.email }}"
+            },
+            {
+              "id": "sce8",
+              "name": "phone",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.phone }}"
+            },
+            {
+              "id": "sce9",
+              "name": "zernioAccountId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.zernioAccountId ?? '' }}"
+            },
+            {
+              "id": "sce10",
+              "name": "zernioConversationId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.zernioConversationId ?? '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "52081063-fff7-48a1-8beb-244303d3661f",
+      "name": "Set Contact ID Existing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "scn1",
+              "name": "contactId",
+              "type": "string",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "id": "scn2",
+              "name": "channel",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.channel }}"
+            },
+            {
+              "id": "scn3",
+              "name": "chatId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.chatId }}"
+            },
+            {
+              "id": "scn4",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.message }}"
+            },
+            {
+              "id": "scn5",
+              "name": "firstName",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.firstName }}"
+            },
+            {
+              "id": "scn6",
+              "name": "lastName",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.lastName }}"
+            },
+            {
+              "id": "scn7",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.email }}"
+            },
+            {
+              "id": "scn8",
+              "name": "phone",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.phone }}"
+            },
+            {
+              "id": "scn9",
+              "name": "zernioAccountId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.zernioAccountId ?? '' }}"
+            },
+            {
+              "id": "scn10",
+              "name": "zernioConversationId",
+              "type": "string",
+              "value": "={{ $('Merge All Channels').item.json.zernioConversationId ?? '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bbd43d33-6d33-45d5-91fa-eea58f1f749f",
+      "name": "Set Contact ID New",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        656
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "update",
+        "contactId": "={{ $json.contactId }}",
+        "updateFields": {
+          "Description": "={{ 'Channel: ' + $json.channel + '\\nQ: ' + $json.message + '\\nA: ' + $json.output + '\\nTime: ' + $now.toISO() }}"
+        }
+      },
+      "id": "a0b4944c-6f0a-48cc-a05a-c5e06b8e5895",
+      "name": "Zoho Update Contact",
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        3296,
+        480
+      ],
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "bKgVRz0u7oBCn2GW",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "deal",
+        "dealName": "={{ ($json.firstName + ' ' + $json.lastName).trim() || 'Unknown Customer' }}",
+        "stage": "Qualification",
+        "additionalFields": {
+          "Description": "={{ 'Pipe-line: General\\nChannel: ' + $json.channel + '\\nMessage: ' + $json.message }}"
+        }
+      },
+      "id": "59b5fc6e-4ea3-4bd6-bcf1-6f3f9d572955",
+      "name": "Zoho Create Deal",
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        3312,
+        704
+      ],
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "bKgVRz0u7oBCn2GW",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "webhookType": [
+          "incomingMessageReceived"
+        ],
+        "chatIds": {
+          "chatId": []
+        }
+      },
+      "type": "@green-api/n8n-nodes-whatsapp-greenapi.greenapiTrigger",
+      "typeVersion": 1,
+      "position": [
+        144,
+        160
+      ],
+      "id": "cf5bd1c5-e96f-4ce4-a18b-cfc0e3015f67",
+      "name": "GREENAPI Trigger",
+      "webhookId": "184229e7-448b-4351-99d1-be07c9aaea16",
+      "credentials": {
+        "greenApiAuthApi": {
+          "id": "T0WEIiVj24B7BnC5",
+          "name": "Green-API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {}
+      },
+      "id": "1791c4bd-91ce-49d8-84a4-43d9a83d218f",
+      "name": "Zoho Search Contact",
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        768,
+        576
+      ],
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "bKgVRz0u7oBCn2GW",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webchat-devtasoft",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c902a1d2-8cd2-4a61-81ba-198bbc048ac5",
+      "name": "Web Chatbot Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        144,
+        1216
+      ],
+      "webhookId": "6cfd6a7d-7844-4e93-b81b-ec467061ef99"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "nwc1",
+              "name": "channel",
+              "type": "string",
+              "value": "WebChat"
+            },
+            {
+              "id": "nwc2",
+              "name": "chatId",
+              "type": "string",
+              "value": "={{ $json.body.sessionId }}"
+            },
+            {
+              "id": "nwc3",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $json.body.message }}"
+            },
+            {
+              "id": "nwc4",
+              "name": "firstName",
+              "type": "string",
+              "value": "Visitor"
+            },
+            {
+              "id": "nwc5",
+              "name": "lastName",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "nwc6",
+              "name": "email",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "nwc7",
+              "name": "phone",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "85255d54-ef69-4f9a-997e-55ffee9c02f6",
+      "name": "Normalize Web Chat",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \"Channel: \" + $json.channel + \"\\nCustomer: \" + ($json.firstName + \" \" + $json.lastName).trim() + \"\\nMessage: \" + $json.message + \"\\nTime: \" + $now.toISO() }}",
+        "options": {
+          "systemMessage": "# IDENTITY\nYou are Alex, the AI Customer Success Agent for DevtaSoft. You represent DevtaSoft across WhatsApp, Email, Telegram, Slack, Facebook, Instagram, and the DevtaSoft website.\n\nYou are professional, warm, and knowledgeable. You NEVER answer from your own knowledge — you ALWAYS search the DevtaSoft Knowledge Base tool first before responding to ANY question about services, pricing, timelines, process, or FAQs.\n\n# STRICT RULES\n- ALWAYS call the DevtaSoft Knowledge Base tool before answering any question\n- NEVER make up prices, timelines, or service details from memory\n- If the knowledge base returns no relevant result, say: 'Let me connect you with our team for accurate details on that.'\n- NEVER discuss competitors\n- NEVER answer questions unrelated to DevtaSoft\n- Match the customer language if not English\n- Keep responses concise and focused\n\n# YOUR ROLE\n1. Answer questions about DevtaSoft by searching the knowledge base\n2. Help clients identify which service fits their needs\n3. Qualify leads and direct them toward a free discovery call\n4. Escalate complex or frustrated enquiries to the human team\n\n# LEAD QUALIFICATION\nWhen a client shows interest, gently collect:\n1. Type of project needed\n2. Timeline or urgency\n3. Business type or industry\nThen say: 'Based on what you have shared, I recommend a free discovery call so we can scope this and give you a fixed-price proposal. Would you like me to arrange that?'\n\n# ESCALATION\nEscalate when: client wants to start immediately, asks about a live project, reports a bug, is frustrated, or asks about payments or contracts.\nSay: 'I am flagging this to the DevtaSoft team right now. Someone will be in touch within 24 hours.'\n\n# CLOSING LINE\nAlways end with: 'To get started with DevtaSoft, simply share a brief description of your project and we will schedule a free 30-minute discovery call. We will provide a written fixed-price proposal within 48 hours — no obligation.'"
+        }
+      },
+      "id": "ee4062b6-8fac-4c31-8059-1388cb16ae3b",
+      "name": "Deva - WebChat AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        784,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "options": {}
+      },
+      "id": "d6a31640-wc-lm",
+      "name": "Nemotron Ultra Free1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        544,
+        1424
+      ],
+      "credentials": {
+        "openRouterApi": {
+          "id": "8Z78QJxMRqKu0h2Z",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.chatId }}",
+        "contextWindowLength": 10
+      },
+      "id": "ec9be308-wc-mem",
+      "name": "Conversation Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        1424
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Search the DevtaSoft knowledge base for information about services, pricing ranges, process, timelines, FAQs, and company information.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "customer-success-kb",
+          "mode": "list",
+          "cachedResultName": "customer-success-kb"
+        },
+        "topK": 59,
+        "options": {
+          "pineconeNamespace": "devtasoft-kb"
+        }
+      },
+      "id": "ed7876c5-wc-kb",
+      "name": "DevtaSoft Knowledge Base1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1056,
+        1488
+      ],
+      "credentials": {
+        "pineconeApi": {
+          "id": "XdkITx9hnaQA5U4J",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6a2f2909-wc-emb",
+      "name": "Embeddings Mistral Cloud1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        1648
+      ],
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "gisflry2srGz58oG",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({reply: $json.output, sessionId: $json.chatId}) }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "8b832105-wc-resp",
+      "name": "Web Chat Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1648,
+        1216
+      ]
+    }
+  ],
+  "pinData": {
+    "Zernio Meta Trigger": [
+      {
+        "json": {
+          "headers": {
+            "host": "asadullah-xyz.app.n8n.cloud",
+            "user-agent": "Zernio-Webhooks/1.0",
+            "content-length": "1699",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; subreqs=2",
+            "cf-connecting-ip": "2a06:98c0:3600::103",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a2709de11aef683e-SEA",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "2a06:98c0:3600::103, 108.162.246.33",
+            "x-forwarded-host": "asadullah-xyz.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-46-6cb567d87d-2rfdw",
+            "x-is-trusted": "yes",
+            "x-late-event": "message.received",
+            "x-late-event-id": "3672d03d-a236-45d3-8026-244fc39a1a25",
+            "x-real-ip": "2a06:98c0:3600::103",
+            "x-zernio-event": "message.received",
+            "x-zernio-event-id": "3672d03d-a236-45d3-8026-244fc39a1a25"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id": "3672d03d-a236-45d3-8026-244fc39a1a25",
+            "event": "message.received",
+            "message": {
+              "id": "6a74e764d0fe733d1ad106fb",
+              "conversationId": "6a7425dcd0fe733d1a91fc26",
+              "platform": "instagram",
+              "platformMessageId": "aWdfZAG1faXRlbToxOklHTWVzc2FnZAUlEOjE3ODQxNDU2NDQ5MTA0MTcwOjM0MDI4MjM2Njg0MTcxMDMwMTI0NDI3NjAyNDQ4NTM4OTM0MDcxMDozMjk0NjczOTE0MzMyMDgxOTc0NDUyMTYyODc5NzYzMjUxMgZDZD",
+              "direction": "incoming",
+              "text": "Hi",
+              "attachments": [],
+              "sender": {
+                "id": "1986845061963043",
+                "name": "🏴",
+                "username": "alone__.stixc",
+                "instagramProfile": {
+                  "isFollower": true,
+                  "isFollowing": true,
+                  "followerCount": 36,
+                  "isVerified": false
+                },
+                "contactId": "6a74e63c1f30a4661a7d107a"
+              },
+              "sentAt": "2026-08-06T19:58:27.775Z",
+              "isRead": false
+            },
+            "conversation": {
+              "id": "6a7425dcd0fe733d1a91fc26",
+              "platformConversationId": "1986845061963043",
+              "participantId": "1986845061963043",
+              "participantName": "🏴",
+              "participantUsername": "alone__.stixc",
+              "participantPicture": "https://scontent-lhr6-2.cdninstagram.com/v/t51.82787-19/655905992_17925104784253734_1177323846970118484_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=109&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=PN38fkk7oQwQ7kNvwEGJ8Jb&_nc_oc=Adp3HPthkp4Fi_e08p2c4SUfG4biaEy9U7jKWCBGays3Z-YQMNP4HrZ6UbxA1MSkJS0&_nc_zt=24&_nc_ht=scontent-lhr6-2.cdninstagram.com&edm=ALmAK4EEAAAA&_nc_gid=501vpnlr7Xm4Va6Kwc44kA&oh=00_AQGXHUD_9Dva3ZoySgUh1ZssJCb9HBR3fPwcNwEdbZ0Q8Q&oe=6A7AD2BE",
+              "status": "active",
+              "contactId": "6a74e63c1f30a4661a7d107a"
+            },
+            "account": {
+              "id": "6a742564d0fe733d1a91f1d5",
+              "platform": "instagram",
+              "username": "myself.asadullah",
+              "displayName": "Asad Ullah",
+              "profileId": "6a7422baa946510830511265",
+              "accountId": "6a742564d0fe733d1a91f1d5"
+            },
+            "timestamp": "2026-08-06T19:58:28.826Z"
+          },
+          "webhookUrl": "https://asadullah-xyz.app.n8n.cloud/webhook-test/meta-devtasoft",
+          "executionMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Normalize WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Merge All Channels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Telegram": {
+      "main": [
+        [
+          {
+            "node": "Merge All Channels",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Slack": {
+      "main": [
+        [
+          {
+            "node": "Merge All Channels",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Normalize Email": {
+      "main": [
+        [
+          {
+            "node": "Merge All Channels",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Merge Lead IDs": {
+      "main": [
+        [
+          {
+            "node": "Deva - DevtaSoft AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deva - DevtaSoft AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Route by Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nemotron Ultra Free": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Deva - DevtaSoft AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Deva - DevtaSoft AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DevtaSoft Knowledge Base": {
+      "ai_tool": [
+        [
+          {
+            "node": "Deva - DevtaSoft AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Channel": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Telegram Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Slack Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Email Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Meta Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Send WhatsApp Reply": {
+      "main": [
+        [
+          {
+            "node": "Merge After Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram Reply": {
+      "main": [
+        [
+          {
+            "node": "Merge After Dispatch",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Send Slack Reply": {
+      "main": [
+        [
+          {
+            "node": "Merge After Dispatch",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Send Email Reply": {
+      "main": [
+        [
+          {
+            "node": "Merge After Dispatch",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zernio Meta Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Meta": {
+      "main": [
+        [
+          {
+            "node": "Merge All Channels",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Send Meta Reply": {
+      "main": [
+        [
+          {
+            "node": "Merge After Dispatch",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Embeddings Mistral Cloud": {
+      "ai_embedding": [
+        [
+          {
+            "node": "DevtaSoft Knowledge Base",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Exists?": {
+      "main": [
+        [
+          {
+            "node": "Set Contact ID Existing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Zoho Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Contact ID Existing": {
+      "main": [
+        [
+          {
+            "node": "Merge Lead IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zoho Create Contact": {
+      "main": [
+        [
+          {
+            "node": "Set Contact ID New",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Contact ID New": {
+      "main": [
+        [
+          {
+            "node": "Merge Lead IDs",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge After Dispatch": {
+      "main": [
+        [
+          {
+            "node": "Zoho Update Contact",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Zoho Create Deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GREENAPI Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge All Channels": {
+      "main": [
+        [
+          {
+            "node": "Zoho Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zoho Search Contact": {
+      "main": [
+        [
+          {
+            "node": "Contact Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Chatbot Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Web Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Web Chat": {
+      "main": [
+        [
+          {
+            "node": "Deva - WebChat AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deva - WebChat AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Web Chat Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nemotron Ultra Free1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Deva - WebChat AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory1": {
+      "ai_memory": [
+        []
+      ]
+    },
+    "DevtaSoft Knowledge Base1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Deva - WebChat AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Mistral Cloud1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "DevtaSoft Knowledge Base1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "62bf7f93-552b-4a6e-8de0-7bd4bb51caf6",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "1a7b863aba4d8f0c8b5ed068b69adb80568b6971f9a808e93f4fa72b2d3609dc"
+  },
+  "nodeGroups": [],
+  "id": "r1OlNRNnTNanHICH",
+  "tags": []
+}
